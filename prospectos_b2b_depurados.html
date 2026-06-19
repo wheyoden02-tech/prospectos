@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prospectos B2B — SIM Chiloé</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+    
+    :root {
+      --bg-main: #0f172a;
+      --bg-surface: #1e293b;
+      --bg-surface-hover: #2d3748;
+      --primary: #f97316;
+      --primary-hover: #ea580c;
+      --primary-light: #ffedd5;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --border-hover: #475569;
+      
+      /* Status Colors */
+      --status-pendiente-bg: #334155;
+      --status-pendiente-text: #cbd5e1;
+      --status-contactado-bg: #b45309;
+      --status-contactado-text: #fef3c7;
+      --status-interesado-bg: #15803d;
+      --status-interesado-text: #dcfce7;
+      --status-descartado-bg: #9f1239;
+      --status-descartado-text: #ffe4e6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* Header styling */
+    header {
+      background: var(--bg-surface);
+      border-bottom: 2px solid var(--primary);
+      padding: 20px 16px;
+    }
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-icon {
+      font-size: 2rem;
+      background: rgba(249, 115, 22, 0.1);
+      padding: 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(249, 115, 22, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    header h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+    header p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Main layout container */
+    .main-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 12px 12px 40px;
+    }
+
+    /* Stats Grid */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .stat {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s ease-in-out;
+    }
+    .stat:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-hover);
+      box-shadow: 0 8px 20px -6px rgba(0,0,0,0.4);
+    }
+    .stat-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-content {
+      display: flex;
+      flex-direction: column;
+    }
+    .stat .n {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+    .stat .l {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Toolbar / Filters */
+    .toolbar {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 16px;
+      background: rgba(30, 41, 59, 0.4);
+      border-radius: 12px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+    }
+    .search-box {
+      position: relative;
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+    .search-box input {
+      flex: 1;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 12px 14px 12px 40px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+    }
+    .search-box .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+    .btn-clear {
+      background: #334155;
+      border: 1px solid #475569;
+      color: var(--text-main);
+      padding: 0 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-clear:hover {
+      background: #475569;
+    }
+    .filter-group {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      width: 100%;
+    }
+    .toolbar select {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .toolbar select:focus {
+      border-color: var(--primary);
+    }
+    .btn-export {
+      background: var(--primary) !important;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      width: 100%;
+    }
+    .btn-export:hover {
+      background: var(--primary-hover) !important;
+      transform: translateY(-1px);
+    }
+    #count {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* Table Wrapping & Base */
+    .table-wrap {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 24px;
+    }
+
+    /* BADGES */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .badge-maps { background: #065f46; color: #a7f3d0; }
+    .badge-doh { background: #1e3a8a; color: #bfdbfe; }
+    .badge-email { background: #581c87; color: #f3e8ff; }
+    .badge-tel { background: #7c2d12; color: #ffedd5; }
+    
+    .tag-none {
+      color: #64748b;
+      font-style: italic;
+      font-size: 0.85rem;
+    }
+
+    /* Elements */
+    .nota-input {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      width: 100%;
+      transition: all 0.2s;
+    }
+    .nota-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .estado-sel {
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 6px 10px;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      width: 100%;
+    }
+    .estado-sel.status-pendiente {
+      background: var(--status-pendiente-bg);
+      color: var(--status-pendiente-text);
+      border-color: #475569;
+    }
+    .estado-sel.status-contactado {
+      background: var(--status-contactado-bg);
+      color: var(--status-contactado-text);
+      border-color: #d97706;
+    }
+    .estado-sel.status-interesado {
+      background: var(--status-interesado-bg);
+      color: var(--status-interesado-text);
+      border-color: #16a34a;
+    }
+    .estado-sel.status-descartado {
+      background: var(--status-descartado-bg);
+      color: var(--status-descartado-text);
+      border-color: #e11d48;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: var(--text-main);
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .contact-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--border-hover);
+      text-decoration: none;
+    }
+    .contact-btn .val-text {
+      font-size: 0.85rem;
+      color: var(--text-main);
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .direccion-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
+    }
+    .licitacion-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      padding: 6px;
+      margin-top: 6px;
+      line-height: 1.3;
+    }
+    .monto {
+      color: #fbbf24;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-top: 4px;
+      display: inline-block;
+      background: rgba(251, 191, 36, 0.08);
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(251, 191, 36, 0.15);
+    }
+
+    /* Info button (Detalle) */
+    .btn-info {
+      background: #334155;
+      border: 1px solid #475569;
+      color: #e2e8f0;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-info:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+      padding: 16px;
+    }
+    .modal {
+      background: #1e293b;
+      width: 100%;
+      max-width: 550px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      padding: 24px;
+      position: relative;
+      animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: var(--text-muted);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .modal-close:hover {
+      background: #ef4444;
+      color: #fff;
+      transform: rotate(90deg);
+    }
+    .modal-title {
+      font-size: 1.3rem;
+      color: var(--text-main);
+      font-weight: 800;
+      padding-right: 32px;
+      line-height: 1.2;
+    }
+    .modal-sector {
+      font-size: 0.85rem;
+      color: var(--primary);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .modal-desc {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .modal-details {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      margin-top: 2px;
+    }
+    .modal-detail-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.85rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+      padding-bottom: 6px;
+    }
+    .modal-detail-item.flex-col {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+    .modal-detail-item strong {
+      color: var(--text-muted);
+      font-weight: 600;
+      min-width: 120px;
+    }
+    .modal-detail-item span {
+      color: var(--text-main);
+      text-align: right;
+    }
+    .modal-detail-item.flex-col span {
+      text-align: left;
+    }
+    .monto-badge {
+      color: #fbbf24 !important;
+      font-weight: 700;
+    }
+    .modal-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #0ea5e9;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      width: 100%;
+      text-align: center;
+      transition: all 0.2s;
+      box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.3);
+      margin-top: 8px;
+    }
+    .modal-link:hover {
+      background: #0284c7;
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    /* RESPONSIVE LAYOUT FOR MOBILE (< 768px) */
+    @media (max-width: 767px) {
+      /* Convert table to cards */
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      thead {
+        display: none; /* Hide header row */
+      }
+      .table-wrap {
+        background: transparent;
+        border: none;
+        padding: 0;
+      }
+      tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      tr {
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+      td {
+        padding: 0;
+        width: 100%;
+        max-width: none;
+        border: none;
+      }
+      
+      /* Card ordering and styles */
+      td.col-index {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 700;
+        text-align: right;
+        width: auto;
+      }
+      
+      td.col-fuente {
+        order: 1;
+        width: auto;
+        margin-bottom: 2px;
+      }
+      
+      td.col-empresa {
+        order: 2;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 10px;
+        margin-bottom: 4px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        padding-right: 32px; /* space for index */
+      }
+      .empresa-name {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: var(--text-main);
+        line-height: 1.3;
+      }
+      .rut-text {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+      
+      td.col-tel {
+        order: 3;
+      }
+      
+      td.col-email {
+        order: 4;
+      }
+      
+      td.col-info {
+        order: 5;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-bottom: 6px;
+      }
+      
+      td.col-estado {
+        order: 6;
+        border-top: 1px solid var(--border);
+        padding-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      td.col-estado::before {
+        content: "ESTADO DE CONTACTO:";
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        font-weight: 800;
+        letter-spacing: 0.5px;
+      }
+      
+      td.col-notas {
+        order: 7;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-top: 2px;
+      }
+      td.col-notas::before {
+        content: "NOTAS DE SEGUIMIENTO:";
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        font-weight: 800;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    /* DESKTOP STYLING (>= 768px) */
+    @media (min-width: 768px) {
+      header {
+        padding: 24px 32px;
+      }
+      .header-container {
+        flex-direction: row;
+        align-items: center;
+      }
+      header h1 {
+        font-size: 1.6rem;
+      }
+      header p {
+        font-size: 0.9rem;
+      }
+
+      .main-container {
+        padding: 24px 32px 40px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .stat {
+        padding: 16px 12px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 8px;
+      }
+      .stat-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+      }
+      .stat-content {
+        align-items: center;
+      }
+      .stat .n {
+        font-size: 1.6rem;
+      }
+      .stat .l {
+        font-size: 0.72rem;
+        margin-top: 4px;
+      }
+
+      .toolbar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+      .search-box {
+        flex: 1;
+        max-width: 380px;
+      }
+      .filter-group {
+        display: flex;
+        width: auto;
+        gap: 10px;
+        flex: 1;
+        justify-content: flex-end;
+      }
+      .toolbar select {
+        width: auto;
+        min-width: 160px;
+      }
+      .btn-export {
+        width: auto;
+      }
+      #count {
+        margin-top: 0;
+        margin-left: auto;
+      }
+
+      /* Desktop Table */
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 0.9rem;
+        min-width: 1000px;
+      }
+      thead th {
+        background: #1e293b;
+        color: var(--text-muted);
+        font-weight: 700;
+        text-align: left;
+        padding: 14px 16px;
+        border-bottom: 2px solid var(--border);
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      tbody tr {
+        transition: background 0.15s;
+      }
+      tbody tr:hover {
+        background: rgba(255, 255, 255, 0.02);
+      }
+      td {
+        padding: 14px 16px;
+        vertical-align: middle;
+        border-bottom: 1px solid var(--border);
+        color: var(--text-main);
+      }
+
+      /* Desktop custom column behaviors */
+      td.col-index {
+        color: #475569;
+        font-weight: 700;
+        width: 40px;
+      }
+      td.col-empresa {
+        max-width: 250px;
+      }
+      .empresa-name {
+        display: block;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--text-main);
+      }
+      .rut-text {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 2px;
+      }
+      .btn-info {
+        margin-top: 4px;
+      }
+      
+      td.col-email, td.col-tel {
+        max-width: 200px;
+      }
+      .contact-btn {
+        background: transparent;
+        border: none;
+        padding: 0;
+        width: auto;
+      }
+      .contact-btn:hover {
+        background: transparent;
+      }
+      .contact-btn .val-text {
+        color: #38bdf8;
+        font-size: 0.9rem;
+      }
+      .contact-btn .val-text:hover {
+        text-decoration: underline;
+      }
+      .contact-btn .badge {
+        display: none; /* Hide button badges on desktop */
+      }
+
+      td.col-info {
+        max-width: 300px;
+      }
+      .direccion-text {
+        margin-top: 2px;
+      }
+
+      td.col-estado {
+        width: 140px;
+      }
+      td.col-notas {
+        width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-container">
+    <div class="logo-area">
+      <div class="logo-icon">⚙️</div>
+      <div>
+        <h1>SIM Chiloé — Central de Prospectos B2B</h1>
+        <p>Constructoras · Acuicultura · Obras DOH/APR · Contratistas (Depurado)</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="main-container">
+  
+  <div class="stats">
+    <!-- Stat cards have dynamic counts updated in JS -->
+    <div class="stat">
+      <div class="stat-icon" style="background: rgba(249, 115, 22, 0.1); color: #f97316;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+      </div>
+      <div class="stat-content">
+        <div class="n" id="s-total">0</div>
+        <div class="l">Total</div>
+      </div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+      </div>
+      <div class="stat-content">
+        <div class="n" id="s-email">0</div>
+        <div class="l">Con Email</div>
+      </div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon" style="background: rgba(249, 115, 22, 0.1); color: #f97316;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      </div>
+      <div class="stat-content">
+        <div class="n" id="s-tel">0</div>
+        <div class="l">Con Teléfono</div>
+      </div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+      </div>
+      <div class="stat-content">
+        <div class="n" id="s-maps">0</div>
+        <div class="l">Google Maps</div>
+      </div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+      </div>
+      <div class="stat-content">
+        <div class="n" id="s-doh">0</div>
+        <div class="l">ChileCompra</div>
+      </div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon" style="background: rgba(234, 179, 8, 0.1); color: #eab308;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      </div>
+      <div class="stat-content">
+        <div class="n" id="s-contactado">0</div>
+        <div class="l">Contactados</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search" placeholder="Buscar por nombre, email, teléfono, licitación...">
+      <button id="btn-clear-filters" class="btn-clear" title="Limpiar todos los filtros" onclick="clearFilters()">✕ Limpiar</button>
+    </div>
+    
+    <div class="filter-group">
+      <select id="fil-fuente">
+        <option value="">Todas las fuentes</option>
+        <option>Google Maps</option>
+        <option>ChileCompra DOH</option>
+      </select>
+      
+      <select id="fil-estado">
+        <option value="">Todos los estados</option>
+        <option>pendiente</option>
+        <option>contactado</option>
+        <option>interesado</option>
+        <option>descartado</option>
+      </select>
+      
+      <select id="fil-contacto">
+        <option value="">Cualquier contacto</option>
+        <option value="email">Con email</option>
+        <option value="tel">Con teléfono</option>
+        <option value="ambos">Email + Teléfono</option>
+      </select>
+      
+      <button class="btn-export" onclick="exportCSV()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Exportar CSV
+      </button>
+    </div>
+    
+    <span id="count"></span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Empresa</th>
+          <th>Email</th>
+          <th>Teléfono</th>
+          <th>Web / Info</th>
+          <th>Fuente</th>
+          <th>Estado</th>
+          <th>Notas</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Estructura del Modal Rediseñado -->
+<div id="info-modal" class="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeInfo()">✕</button>
+    <div class="modal-title" id="m-title">Nombre Empresa</div>
+    <div class="modal-sector" id="m-sector">📂 Sector</div>
+    <div class="modal-desc" id="m-desc">Descripción de la empresa.</div>
+    
+    <!-- Nuevos detalles dinámicos en la ficha -->
+    <div class="modal-details" id="m-details"></div>
+    
+    <a id="m-link" href="#" target="_blank" class="modal-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      Más info en Google
+    </a>
+  </div>
+</div>
+
+
+<script>
+// 1. DATA LIMPIA (72 registros filtrados)
+const RAW = [
+  { "nombre": "Constructora Haciendas Chiloé", "telefono": "+56 9 8422 4291", "web": "", "email": "", "direccion": "Nalhuitad 3, 5770000 Chonchi, Los Lagos, Chile", "rating": "3.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Chiloetravel construcciones y servicios", "telefono": "+56 9 9422 3562", "web": "", "email": "agencia@chiloetravel.cl", "direccion": "Sector - Los Queltehues, Vista Hermosa 575, 5730000 Dalcahue, Los Lagos, Chile", "rating": "5.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora Insular", "telefono": "+56 9 9770 3610", "web": "", "email": "jc@constructorainsular.cl", "direccion": "Quento SN, Castro, Los Lagos, Chile", "rating": "estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora Patrimonial Chiloé", "telefono": "+56 9 5316 1495", "web": "https://constructorapatrimonialchiloe.cl/", "email": "constructora@patrimonialchiloe.cl", "direccion": "", "rating": "5.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Grupal Steel Chiloé", "telefono": "+56 9 7737 3292", "web": "https://grupal-steel-chiloe.ueniweb.com/?utm_campaign=gmb", "email": "", "direccion": "O'Higgins 984, 5700000 Castro, Los Lagos, Chile", "rating": "5.0 estrellas 1 opiniones", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "SOCIEDAD CONSTRUCTORA ENRIQUE CORREA E HIJOS SPA.", "telefono": "+56 65 263 5408", "web": "", "email": "", "direccion": "PANAMERICANA NORTE 3444, 5700000 Castro, Los Lagos, Chile", "rating": "5.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora Isla Caguach", "telefono": "+56 9 8804 2761", "web": "", "email": "", "direccion": "Panamericana Norte 3535, Castro, Los Lagos, Chile", "rating": "5.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora Y Servicios Bryancar Limitada", "telefono": "+56 9 9479 3710", "web": "", "email": "administracion@constructorabryancar.cl", "direccion": "Dr. Manuel González 400, Castro, Los Lagos, Chile", "rating": "4.2 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Sucursal Kupfer", "telefono": "", "web": "", "email": "ricardo.vivanco@kupfer.cl", "direccion": "Castro, Los Lagos, Chile", "rating": "3.9 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "decoraziioni. chiloe construccion y diseño.", "telefono": "+56 9 3723 7227", "web": "https://www.instagram.com/reel/DWpZ0w1jSdw/?utm_source=ig_web_copy_link", "email": "", "direccion": "", "rating": "5.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora Borquez", "telefono": "+56 9 5949 2967", "web": "http://www.constructoraborquez.cl/", "email": "contacto@borquezconstructora.cl", "direccion": "Diputado Hector Correa Letelier 1265, Castro, Los Lagos, Chile", "rating": "2.3 estrellas 3 opiniones", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Construcciones Ancud", "telefono": "+56 9 6616 7688", "web": "", "email": "", "direccion": "", "rating": "", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora Rahue", "telefono": "+56 9 9080 7381", "web": "https://constructorarahue.cl/", "email": "csalazar@rahueltda.com", "direccion": "Pablo Neruda 1024, 5700395 Castro, Los Lagos, Chile", "rating": "5.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Solda Chiloé", "telefono": "+56 9 8597 2314", "web": "https://solda-chiloe.netlify.app/", "email": "", "direccion": "5700597 Castro, Los Lagos, Chile", "rating": "", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "constructora F y R", "telefono": "+56 9 9197 8687", "web": "", "email": "", "direccion": "", "rating": "estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Arriendos HB", "telefono": "+56 9 7197 6284", "web": "", "email": "", "direccion": "Almte. Latorre 1261, 5710000 Ancud, Los Lagos, Chile", "rating": "4.1 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "M&C CONSTRUCCIONES SPA", "telefono": "+56 9 6194 4342", "web": "", "email": "", "direccion": "", "rating": "", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Inmobiliaria Chiloe Ltda.", "telefono": "+56 9 9705 9297", "web": "https://www.ichiloe.cl/", "email": "nicocontacto@inmobiliariachiloe.cl", "direccion": "Chacabuco 258, segundo piso, 5700000 Castro, Los Lagos, Chile", "rating": "3.9 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora Llancan", "telefono": "+56 9 7326 2265", "web": "", "email": "", "direccion": "", "rating": "", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora Michiloe", "telefono": "+56 9 3708 1086", "web": "", "email": "contacto@mhconstruye.cl", "direccion": "Los Carreras 831, 5700616 Castro, Los Lagos, Chile", "rating": "5.0 estrellas 1 opiniones", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Lomas De Castro", "telefono": "+56 9 5984 0532", "web": "", "email": "", "direccion": "Unnamed Road, Castro, Los Lagos, Chile", "rating": "4.6 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "MCT Castro", "telefono": "+56 65 263 8899", "web": "https://www.mct.cl/", "email": "contactotienda12@mct.cl", "direccion": "Pedro Montt 1302, 5700171 Castro, Los Lagos, Chile", "rating": "4.1 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora Okinawa Spa", "telefono": "+56 9 9538 4047", "web": "", "email": "", "direccion": "", "rating": "", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "LIHUEN HOME venta de containers", "telefono": "+56 9 7975 0584", "web": "", "email": "", "direccion": "detras de onde caballo - 570000, Ruta 5, 5700000 Castro, Los Lagos, Chile", "rating": "", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora Najar", "telefono": "+56 65 263 2053", "web": "https://www.najar.cl/", "email": "contacto@najar.cl", "direccion": "Sotomayor 430, 5700502 Castro, Los Lagos, Chile", "rating": "3.8 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora Oyarzo Barria", "telefono": "+56 9 5592 6794", "web": "", "email": "constructora@oyarzokramm.cl", "direccion": "", "rating": "", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "INGENIERIA Y SERVICIOS GLOBAL SPA", "telefono": "+56 9 9234 6109", "web": "", "email": "", "direccion": "", "rating": "", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Rucafe Ltda", "telefono": "+56 65 253 3799", "web": "http://www.rucafe.cl/", "email": "contacto@rucafe.cl", "direccion": "Castro, Los Lagos, Chile", "rating": "5.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "C&C Construcciones y Asesorias spa", "telefono": "", "web": "", "email": "info@construccionescyc.com", "direccion": "X74X+M5, Col. Belben, Ancud, Los Lagos, Chile", "rating": "4.3 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora Sánchez Jaramillo", "telefono": "+56 9 5670 3437", "web": "https://www.sanchezjaramillo.cl/", "email": "contacto@sanchezjaramillo.cl", "direccion": "36X2+42, Ancud, Los Lagos, Chile", "rating": "4.5 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "CONSTRUCTORA A&B SpA", "telefono": "+56 9 6164 6971", "web": "", "email": "", "direccion": "ANCUD, 5710000 Ancud, Los Lagos, Chile", "rating": "", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Empresa Nazareno", "telefono": "+56 9 8239 4042", "web": "https://www.instagram.com/empresa_nazareno?igsh=MWE0eml3ejNoOGNlNg==", "email": "", "direccion": "Ruta Panamericana Sur, km 2, Ancud, Los Lagos, Chile", "rating": "estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Sociedad Constructora Buenaventura Ltda", "telefono": "+56 65 262 3331", "web": "", "email": "", "direccion": "Pudeto 219, 5710069 Ancud, Los Lagos, Chile", "rating": "5.0 estrellas 2 opiniones", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora J.H.", "telefono": "+56 9 7135 6436", "web": "", "email": "", "direccion": "Del Cerro 55, 5710000 Ancud, Los Lagos, Chile", "rating": "5.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Bedecarratz Spa", "telefono": "+56 64 231 7171", "web": "http://www.bedecarratz.cl/", "email": "contacto@bedecarratz.cl", "direccion": "Corcovado 4100, 5710000 Ancud, Los Lagos, Chile", "rating": "3.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora Don Heriberto", "telefono": "+56 9 4872 9080", "web": "", "email": "", "direccion": "Aníbal Pinto 780, 5710000 Ancud, Los Lagos, Chile", "rating": "5.0 estrellas 1 opiniones", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Constructora Sanchez Jaramillo", "telefono": "+56 9 5670 3437", "web": "http://www.sanchezjaramillo.cl/", "email": "", "direccion": "", "rating": "", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "RL Electricidad y Construcción", "telefono": "+56 9 8179 5855", "web": "", "email": "", "direccion": "", "rating": "", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Aridos / Rodrigo Diaz", "telefono": "+56 9 9873 8859", "web": "", "email": "", "direccion": "46HC+R5, Ancud, Los Lagos, Chile", "rating": "estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Varadero Quellón Etapa I, Constructora Sicomaq", "telefono": "", "web": "", "email": "contacto@sicomaq.cl", "direccion": "Quellón, Los Lagos, Chile", "rating": "5.0 estrellas 3 opiniones", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "MADERA LOS PELLINES", "telefono": "+56 9 9779 8199", "web": "", "email": "contacto@lospellines.cl", "direccion": "Av. la Paz 525, 5790000 Quellón, Los Lagos, Chile", "rating": "3.4 estrellas 5 opiniones", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Covepa Quellón", "telefono": "", "web": "http://www.covepa.cl/", "email": "info_ancud@covepa.org", "direccion": "Esquina - 22 de Mayo, Santos Vargas 310, 5790261 Quellón, Los Lagos, Chile", "rating": "4.3 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "VILLA RUKAHUE", "telefono": "+56 9 6849 0971", "web": "", "email": "", "direccion": "Ernesto Riquelme 265, Quellón, Los Lagos, Chile", "rating": "5.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "PROYECTOS A+ CHILOE", "telefono": "+56 9 4149 8616", "web": "", "email": "", "direccion": "ESQUINA (ANEXO - Santos Vargas 490, 5790258 Quellón, Los Lagos, Chile", "rating": "", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Exportadora Los Fiordos - AquaChile", "telefono": "+56 65 268 3110", "web": "https://es.aquachile.com/", "email": "dominguezmax.dominguezr@aquachile.com", "direccion": "W-881 305, Quellón, Los Lagos, Chile", "rating": "4.3 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Piscicultura Quillaico", "telefono": "+56 9 9104 7297", "web": "", "email": "", "direccion": "Unnamed Road, Dalcahue, Los Lagos, Chile", "rating": "4.3 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "AMICHILE (Asoc. de Mitilicultores de Chile A.G.)", "telefono": "", "web": "http://www.amichile.com/", "email": "comunicaciones@amichile.com", "direccion": "Pasaje Colín - Ten Ten S/N, Castro, Los Lagos, Chile", "rating": "4.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Marine Farm Tornagaleones", "telefono": "+56 65 268 1086", "web": "http://www.marinefarm.cl/", "email": "iochagavia@marinefarm.cl", "direccion": "Cam. San Antonio, Quellón, Los Lagos, Chile", "rating": "4.2 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Salmon Chiloe", "telefono": "+56 9 6514 8257", "web": "", "email": "contacto@salmones-dechile.cl", "direccion": "Edmundo Pérez Zujovic 559, 5700829 Castro, Los Lagos, Chile", "rating": "5.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Salmones De Chile Alimentos S.A", "telefono": "+56 65 267 2204", "web": "http://www.salmones-dechile.cl/", "email": "contacto@salmones-dechile.cl", "direccion": "Janequeo 238, Chonchi, Los Lagos, Chile", "rating": "4.3 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Salmones Cailín - AquaChile", "telefono": "+56 65 253 8816", "web": "http://aquachile.com/", "email": "dominguezmax.dominguezr@aquachile.com", "direccion": "Ernesto Riquelme 165, Quellón, Los Lagos, Chile", "rating": "4.3 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Asesorías en Concesiones Marítimas Chiloé EIRL", "telefono": "+56 9 7806 8813", "web": "", "email": "", "direccion": "COIHUINCO RURAL, SITIO 2, 5700000 Castro, Los Lagos, Chile", "rating": "5.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Granja Doña Rosita", "telefono": "+56 9 8795 3396", "web": "", "email": "", "direccion": "426P+CQ, Ancud, Los Lagos, Chile", "rating": "5.0 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Amukan Gourmet", "telefono": "+56 9 3642 1311", "web": "https://www.facebook.com/amukangourmet", "email": "", "direccion": "MAGIC ISLAND OF CHILOÉ - Pedro Montt, AVENUE # 33, 5700435 Castro, Los Lagos, Chile", "rating": "4.8 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Cabañas Terrazas De Nercón", "telefono": "+56 9 8810 0667", "web": "https://web.facebook.com/TerrazasDeNercon/", "email": "", "direccion": "Los Aromos s/n. Nercón, Castro, Los Lagos, Chile", "rating": "4.6 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Cabañas Palafitos Los Pescadores", "telefono": "+56 9 4045 8345", "web": "http://www.palafitoslospescadores.com/", "email": "", "direccion": "Ramón Gallardo Llanca, 5700000 Castro, Los Lagos, Chile", "rating": "4.6 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Cabañas y Hostal Chiloé Travel", "telefono": "+56 9 9422 3562", "web": "http://www.chiloetravel.cl/", "email": "", "direccion": "Los Queltehues, Vista Hermosa 575, 5730000 Dalcahue, Los Lagos, Chile", "rating": "4.7 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Cabañas Trayen Chiloé Bungalows", "telefono": "+56 9 9939 9207", "web": "https://www.trayenchiloe.cl/", "email": "", "direccion": "Los Aromos de Nercon, 5700000 Castro, Los Lagos, Chile", "rating": "4.7 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Parque Natural Rio Bravo Lodge", "telefono": "+56 9 6308 8571", "web": "https://www.parquenaturalriobravo.cl/", "email": "", "direccion": "Llicaldad, s/n, 5700000 Castro, Los Lagos, Chile", "rating": "4.8 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Cabañas Torre Huillinco (Cabañas del Lago Huillinco)", "telefono": "+56 9 9919 7020", "web": "http://www.torrehuillinco.cl/", "email": "", "direccion": "Huillinco, Pinda, Chonchi, Los Lagos, Chile", "rating": "4.8 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Cabañas Rucalhue - Castro", "telefono": "+56 9 9478 2055", "web": "https://xn--cabaaschilenas-tnb.cl/cabanas-en-castro/", "email": "", "direccion": "Francisco Miranda s/n, Castro, Los Lagos, Chile", "rating": "4.9 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Cabañas Cochipoñis", "telefono": "+56 9 3202 4512", "web": "", "email": "", "direccion": "Unnamed Road, Castro, Los Lagos, Chile", "rating": "4.8 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Hotel y Cabañas Terrazas Vista al Mar HCT", "telefono": "+56 9 7780 0211", "web": "https://terrazasvistaalmar.cl/", "email": "terrazas@vistaalmar.cl", "direccion": "Camino a Lechagua km2, 5710000 Ancud, Los Lagos, Chile", "rating": "4.6 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Cabañas y camping el chilote", "telefono": "+56 9 9378 8201", "web": "", "email": "", "direccion": "Ruta Panamericana Sur 1, Castro, Los Lagos, Chile", "rating": "4.1 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "CABAÑAS RUKANTU", "telefono": "+56 9 9948 9601", "web": "https://www.facebook.com/blancaaromas/", "email": "", "direccion": "W-55 3951, Castro, Los Lagos, Chile", "rating": "4.8 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Cabañas Tierra del Fuego", "telefono": "+56 9 9789 1244", "web": "http://cabanastierradelfuego.cl/", "email": "", "direccion": "Ruta Panamericana Sur 1, Río Negro, Castro, Los Lagos, Chile", "rating": "4.8 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Cabañas Treng Treng", "telefono": "+56 9 9817 6094", "web": "http://www.trengtreng.cl/", "email": "contacto@trengtreng.cl", "direccion": "Pedro Jose Andrade 420, 5770000 Chonchi, Los Lagos, Chile", "rating": "4.6 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Cabañas Arrayanes Chiloé", "telefono": "+56 9 5407 6299", "web": "http://arrayaneschiloe.com/", "email": "", "direccion": "Lechagua, km 8, 5710000 Ancud, Los Lagos, Chile", "rating": "4.7 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Cabañas Rukawe Chiloé", "telefono": "+56 9 9312 6981", "web": "https://www.instagram.com/rukawechiloe?igsh=N29tZDhtMXcwdHox", "email": "", "direccion": "Nalhuitad, 3, 5770000 Chonchi, Los Lagos, Chile", "rating": "4.8 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Cabañas Reflejo De Luna", "telefono": "+56 9 6616 3417", "web": "", "email": "", "direccion": "Ten Ten, Castro, Los Lagos, Chile", "rating": "4.8 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Arriendo cabaña Chiloe Casa Blanca", "telefono": "+56 9 7495 0462", "web": "https://chiloecabanas.cl/", "email": "", "direccion": "manao rural s/n, 5710000 Ancud, Los Lagos, Chile", "rating": "4.9 estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "Cabañas El Bosque Chiloe", "telefono": "+56 9 8845 9929", "web": "https://www.facebook.com/ArriendoCabanasElBosqueChiloe", "email": "", "direccion": "Castro, Los Lagos, Chile", "rating": "estrellas", "fuente": "Google Maps", "estado": "pendiente" },
+  { "nombre": "SAN SEBASTIAN SPA", "telefono": "+56 9 3954 2813", "web": "", "email": "contacto@sansebastianspa.cl", "direccion": "", "rating": "", "rut": "76.462.486-6", "licitacion": "MEJORAMIENTO PLANTA DE TRATAMIENTO Y SISTEMA SSR CURACO DE VELEZ", "monto": "90000000.0", "fuente": "ChileCompra DOH", "estado": "pendiente" },
+  { "nombre": "Apr de Lelbun", "telefono": "243557641", "web": "", "email": "", "direccion": "", "rating": "", "rut": "65.947.250-3", "licitacion": "CONVENIO SUMINISTROA AGUA POTABLE GRANEL", "monto": "5000000.0", "fuente": "ChileCompra DOH", "estado": "pendiente" },
+  { "nombre": "COMERCIAL ECOMAR SPA", "telefono": "861823176", "web": "", "email": "", "direccion": "", "rating": "", "rut": "77.086.296-5", "licitacion": "MEJORAMIENTO APR ÑIUCHO COMUNA DE DALCAHUE", "monto": "64208000.0", "fuente": "ChileCompra DOH", "estado": "pendiente" },
+  { "nombre": "najar ltda.", "telefono": "300351406", "web": "", "email": "contacto@najar.cl", "direccion": "", "rating": "", "rut": "77.872.480-4", "licitacion": "MEJORAMIENTO APR ÑIUCHO COMUNA DE DALCAHUE", "monto": "64208000.0", "fuente": "ChileCompra DOH", "estado": "pendiente" }
+];
+let data = RAW.map((r,i) => ({...r, _id:i, notas: r.notas||""}));
+
+// 2. BASE DE DATOS DE PERFILES
+const INFO_DB = {
+  // Construcción
+  "constructora haciendas chiloé": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Diseño, loteos y edificación de viviendas residenciales/personalizadas y obras civiles en Chonchi." },
+  "chiloetravel construcciones y servicios": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "División de infraestructura vinculada a proyectos turísticos, cabañas y servicios modulares en Dalcahue." },
+  "constructora insular": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Obras civiles, proyectos de edificación privada y residencial con base en Castro/Quento." },
+  "constructora patrimonial chiloé": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Edificación residencial enfocada en diseños que respetan la identidad, materialidad y arquitectura típica chilota." },
+  "sociedad constructora enrique correa e hijos spa.": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Constructora local consolidada en Castro; abarca desde edificación comercial hasta proyectos habitacionales privados." },
+  "constructora isla caguach": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Contratistas de obras menores y edificación habitacional localizados en la salida norte de Castro." },
+  "constructora y servicios bryancar limitada": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Empresa de construcción habitacional, remodelaciones y servicios de mantenimiento de infraestructura en Castro." },
+  "constructora borquez": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Empresa formal de edificación residencial premium, desarrollo de proyectos de viviendas unifamiliares en Castro." },
+  "construcciones ancud": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Maestranza y constructores locales dedicados a ampliaciones, viviendas particulares y obras menores en Ancud." },
+  "constructora rahue": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Empresa con capacidad técnica para obras civiles de mayor envergadura, galpones y proyectos residenciales estructurales." },
+  "constructora f y r": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Contratista independiente para obras menores, ampliaciones y carpintería residencial en la zona." },
+  "m&c construcciones spa": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Prestadores de servicios integrales de construcción privada, terminaciones y estructuras menores." },
+  "inmobiliaria chiloe ltda.": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Desarrolladores inmobiliarios en Castro; gestión de terrenos, venta de propiedades, proyectos habitacionales y oficinas." },
+  "constructora llancan": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Contratista local para proyectos de edificación básica, viviendas unifamiliares y obras de madera." },
+  "constructora michiloe": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Constructores dedicados al desarrollo residencial nativo, viviendas particulares con maderas de la zona en Castro." },
+  "constructora okinawa spa": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Proveedor de servicios de construcción residencial e instalaciones particulares bajo modalidad llave en mano." },
+  "constructora oyarzo barria": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Contratistas locales enfocados en obras habitacionales privadas, albañilería y carpintería tradicional." },
+  "c&c construcciones y asesorias spa": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Empresa de Ancud dedicada al diseño arquitectónico, construcción de casas y regularización de obras." },
+  "constructora sánchez jaramillo": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Empresa de edificación residencial y corporativa en la comuna de Ancud; diseño arquitectónico completo." },
+  "constructora sanchez jaramillo": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Empresa de edificación residencial y corporativa en la comuna de Ancud; diseño arquitectónico completo." },
+  "constructora a&b spa": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Pequeña firma de contratistas para el desarrollo de viviendas particulares y ampliaciones en Ancud." },
+  "empresa nazareno": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Contratistas de obras de construcción y servicios habitacionales en la ruta Panamericana Sur, Ancud." },
+  "sociedad constructora buenaventura ltda": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Constructora tradicional de Ancud especializada en edificación urbana, locales comerciales y viviendas." },
+  "constructora j.h.": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Maestros contratistas y edificadores independientes para proyectos residenciales en Ancud." },
+  "bedecarratz spa": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Una de las constructoras regionales más grandes e importantes de la zona, con más de 35 años ejecutando proyectos públicos y privados masivos." },
+  "constructora don heriberto": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Contratistas locales dedicados al rubro habitacional y cabañas de turismo en la zona de Ancud." },
+  "varadero quellón etapa i, constructora sicomaq": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Empresa de ingeniería y obras civiles de gran envergadura (portuarias, viales e industriales); a cargo del proyecto del Varadero en Quellón." },
+  "proyectos a+ chiloe": { sector: "Construcción, Inmobiliaria e Infraestructura", desc: "Oficina técnica y constructora en Quellón; diseño de planos, arquitectura, edificación residencial y remodelaciones." },
+  
+  // Proveedores
+  "grupal steel chiloé": { sector: "Proveedores Industriales y Materiales", desc: "Maestranza metalúrgica en Castro. Hacen cimientos, estructuras metálicas pesadas, galpones industriales y excavación." },
+  "sucursal kupfer": { sector: "Proveedores Industriales y Materiales", desc: "Empresa nacional con sede en Castro de alta gama industrial. Proveen EPP, aceros, soldaduras, mangueras y herramientas." },
+  "decoraziioni. chiloe construccion y diseño.": { sector: "Proveedores Industriales y Materiales", desc: "Estudio boutique de diseño de interiores, revestimientos modernos, terminaciones finas y decoración para casas y hoteles." },
+  "solda chiloé": { sector: "Proveedores Industriales y Materiales", desc: "Taller y servicio móvil de soldadura estructural, estructuras metálicas a pedido y reparaciones mecánicas en Castro." },
+  "arriendos hb": { sector: "Proveedores Industriales y Materiales", desc: "Empresa en Ancud dedicada al arriendo de herramientas, andamios, betoneras y maquinaria menor para la construcción." },
+  "mct castro": { sector: "Proveedores Industriales y Materiales", desc: "Distribuidora mayorista y técnica de equipamiento comercial (balanzas, vitrinas, refrigeración industrial, cajas registradoras)." },
+  "lihuen home venta de containers": { sector: "Proveedores Industriales y Materiales", desc: "Comercializadora y adaptadora de contenedores marítimos para transformarlos en viviendas, oficinas modulares o bodegas." },
+  "ingenieria y servicios global spa": { sector: "Proveedores Industriales y Materiales", desc: "Servicios de ingeniería menor, instalaciones eléctricas certificadas y mantención industrial para plantas." },
+  "rucafe ltda": { sector: "Proveedores Industriales y Materiales", desc: "Distribuidor establecido de materiales de construcción, ferretería técnica y herramientas en la zona de Castro." },
+  "rl electricidad y construcción": { sector: "Proveedores Industriales y Materiales", desc: "Contratistas eléctricos residenciales e industriales; instalaciones de tableros, cableados estructurados y redes." },
+  "aridos / rodrigo diaz": { sector: "Proveedores Industriales y Materiales", desc: "Proveedor de movimiento de tierra, excavaciones y venta/despacho de áridos (arena, grava, ripio) para obras en Ancud." },
+  "madera los pellines": { sector: "Proveedores Industriales y Materiales", desc: "Barraca y aserradero en Quellón; producción y venta de maderas nativas, impregnadas y materiales para techumbres." },
+  "covepa quellón": { sector: "Proveedores Industriales y Materiales", desc: "Gran distribuidora e importadora de insumos agrícolas, ferretería rural, alimentos para animales y herramientas industriales." },
+  
+  // Acuícola
+  "exportadora los fiordos - aquachile": { sector: "Industria Acuícola y Marítima", desc: "Planta de procesos y logística de AquaChile en Quellón. Cosecha, procesamiento y exportación global de salmón." },
+  "piscicultura quillaico": { sector: "Industria Acuícola y Marítima", desc: "Centro hidrobiológico en Dalcahue dedicado a la primera etapa de vida del salmón (incubación de ovas y crianza de smolts)." },
+  "amichile (asoc. de mitilicultores de chile a.g.)": { sector: "Industria Acuícola y Marítima", desc: "Asociación de Mitilicultores de Chile. Gremio industrial que agrupa a los productores y exportadores de choritos." },
+  "marine farm tornagaleones": { sector: "Industria Acuícola y Marítima", desc: "Compañía multinacional salmonera con centros de cultivo y operaciones logísticas marítimas pesadas en la zona de Quellón." },
+  "salmon chiloe": { sector: "Industria Acuícola y Marítima", desc: "Oficinas comerciales o base de servicios logísticos asociados a la acuicultura de salmónidos en Castro." },
+  "salmones de chile alimentos s.a": { sector: "Industria Acuícola y Marítima", desc: "Planta de alimentos y cultivos acuícolas con operaciones logísticas críticas e instalaciones de producción en Chonchi." },
+  "salmones cailín - aquachile": { sector: "Industria Acuícola y Marítima", desc: "Centro operativo y de engorda de salmones de AquaChile ubicado estratégicamente en la zona costera de Quellón." },
+  "asesorías en concesiones marítimas chiloé eirl": { sector: "Industria Acuícola y Marítima", desc: "Consultora técnica y legal que tramita permisos de uso de borde costero, muelles, boyas y concesiones acuícolas." },
+  
+  // Turismo
+  "granja doña rosita": { sector: "Turismo, Hotelería y Gastronomía", desc: "Centro de agroturismo en Ancud; combina alojamiento rural, visitas guiadas, producción local y educación ambiental." },
+  "amukan gourmet": { sector: "Turismo, Hotelería y Gastronomía", desc: "Emprendimiento gastronómico (producción de conservas, salsas, banquetería o restaurante) ubicado en el sector costero de Castro." },
+  "cabañas terrazas de nercón": { sector: "Turismo, Hotelería y Gastronomía", desc: "Complejo de cabañas de turismo de nivel medio-alto con vista panorámica, ubicadas al sur de Castro." },
+  "cabañas palafitos los pescadores": { sector: "Turismo, Hotelería y Gastronomía", desc: "Alojamiento turístico en la infraestructura icónica de Castro (palafitos); enfocado en turismo nacional/internacional." },
+  "cabañas y hostal chiloé travel": { sector: "Turismo, Hotelería y Gastronomía", desc: "Hospedaje turístico e integrador de servicios de transportes y tours con base en Dalcahue." },
+  "cabañas trayen chiloé bungalows": { sector: "Turismo, Hotelería y Gastronomía", desc: "Bungalows boutique rodeados de bosque nativo en el sector de Nercón, enfocados en descanso premium." },
+  "parque natural rio bravo lodge": { sector: "Turismo, Hotelería y Gastronomía", desc: "Complejo turístico sustentable y lodge de alta gama inserto en la naturaleza del sector Llicaldad (Castro)." },
+  "cabañas torre huillinco (cabañas del lago huillinco)": { sector: "Turismo, Hotelería y Gastronomía", desc: "Complejo vacacional de cabañas a orillas del Lago Huillinco en la comuna de Chonchi." },
+  "cabañas rucalhue - castro": { sector: "Turismo, Hotelería y Gastronomía", desc: "Hospedaje tradicional chilote, arriendo diario de cabañas equipadas para familias en el sector urbano de Castro." },
+  "cabañas cochipoñis": { sector: "Turismo, Hotelería y Gastronomía", desc: "Arriendo estacional de cabañas y hospedaje en sectores rurales/periféricos de Castro." },
+  "hotel y cabañas terrazas vista al mar hct": { sector: "Turismo, Hotelería y Gastronomía", desc: "Hotel consolidado y cabañas en el sector de la playa de Lechagua (Ancud), con enfoque turístico y corporativo." },
+  "cabañas y camping el chilote": { sector: "Turismo, Hotelería y Gastronomía", desc: "Servicio combinado de parcelas para carpas/campers y cabañas económicas en la salida sur de Castro (Ruta 5)." },
+  "cabañas rukantu": { sector: "Turismo, Hotelería y Gastronomía", desc: "Alojamiento vacacional ubicado en la ruta costera interior que conecta Castro con sectores rurales." },
+  "cabañas tierra del fuego": { sector: "Turismo, Hotelería y Gastronomía", desc: "Complejo turístico familiar situado a orillas de la carretera (Ruta 5 Sur) en el sector Río Negro de Castro." },
+  "cabañas treng treng": { sector: "Turismo, Hotelería y Gastronomía", desc: "Complejo turístico tradicional ubicado en el área urbana/costera de Chonchi." },
+  "cabañas arrayanes chiloé": { sector: "Turismo, Hotelería y Gastronomía", desc: "Cabañas equipadas para el turismo de descanso en el sector balneario de Lechagua, Ancud." },
+  "cabañas rukawe chiloé": { sector: "Turismo, Hotelería y Gastronomía", desc: "Emprendimiento familiar de hospedaje y cabañas nativas en el sector de Nalhuitad, Chonchi." },
+  "cabañas reflejo de luna": { sector: "Turismo, Hotelería y Gastronomía", desc: "Hospedaje vacacional en el sector residencial de Ten Ten, con vista directa a la bahía de Castro." },
+  "arriendo cabaña chiloe casa blanca": { sector: "Turismo, Hotelería y Gastronomía", desc: "Arriendo residencial o vacacional de cabaña equipada en el sector rural/costero de Manao (Ancud)." },
+  "cabañas el bosque chiloe": { sector: "Turismo, Hotelería y Gastronomía", desc: "Hospedaje rústico rodeado de vegetación, orientado al descanso familiar en los alrededores de Castro." },
+  
+  // APR
+  "san sebastian spa": { sector: "Comités APR y Obras Hidráulicas", desc: "Contratista del Estado. Adjudicó proyecto de $90 millones para mejorar planta de tratamiento y sistema SSR en Curaco de Vélez." },
+  "apr de lelbun": { sector: "Comités APR y Obras Hidráulicas", desc: "Comité comunitario de Agua Potable Rural en Chonchi/Queilen. Administra fondos para asegurar suministro de agua a granel." },
+  "comercial ecomar spa": { sector: "Comités APR y Obras Hidráulicas", desc: "Contratista hidráulica. Adjudicó licitación DOH de $64.2 millones para ejecutar el mejoramiento del APR Ñiucho en Dalcahue." },
+  "najar ltda.": { sector: "Comités APR y Obras Hidráulicas", desc: "Empresa de ingeniería civil y sanitaria. Participa en proyectos estatales de mejoramiento técnico de APR en Dalcahue." }
+};
+
+// 3. FUNCIONES DEL MODAL
+function showInfo(id) {
+  const r = data.find(x => x._id === id);
+  if(!r) return;
+  
+  const normName = r.nombre.toLowerCase().trim();
+  const info = INFO_DB[normName] || { sector: "Categoría General", desc: "No hay información de perfil detallada en la base de datos." };
+  
+  document.getElementById("m-title").textContent = r.nombre;
+  document.getElementById("m-sector").textContent = "📂 " + info.sector;
+  document.getElementById("m-desc").textContent = info.desc;
+  
+  // Agregar detalles dinámicos
+  let detailsHtml = "";
+  if (r.rut) detailsHtml += `<div class="modal-detail-item"><strong>RUT:</strong> <span>${r.rut}</span></div>`;
+  if (r.telefono) detailsHtml += `<div class="modal-detail-item"><strong>Teléfono:</strong> <span>${r.telefono}</span></div>`;
+  if (r.email) detailsHtml += `<div class="modal-detail-item"><strong>Correo:</strong> <span>${r.email}</span></div>`;
+  if (r.direccion) detailsHtml += `<div class="modal-detail-item flex-col"><strong>Dirección:</strong> <span>${r.direccion}</span></div>`;
+  if (r.rating) {
+    const starCount = r.rating.split(" ")[0] || "—";
+    detailsHtml += `<div class="modal-detail-item"><strong>Calificación:</strong> <span>⭐ ${starCount}</span></div>`;
+  }
+  if (r.licitacion) detailsHtml += `<div class="modal-detail-item flex-col"><strong>Licitación:</strong> <span>${r.licitacion}</span></div>`;
+  if (r.monto && r.monto !== "nan") {
+    detailsHtml += `<div class="modal-detail-item"><strong>Monto Adjudicado:</strong> <span class="monto-badge">$${parseInt(r.monto).toLocaleString("es-CL")}</span></div>`;
+  }
+  if (r.fuente) detailsHtml += `<div class="modal-detail-item"><strong>Fuente de Origen:</strong> <span>${r.fuente}</span></div>`;
+  
+  document.getElementById("m-details").innerHTML = detailsHtml;
+  
+  const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(r.nombre + " Chiloé")}`;
+  document.getElementById("m-link").href = searchUrl;
+  
+  document.getElementById("info-modal").style.display = "flex";
+}
+
+function closeInfo() {
+  document.getElementById("info-modal").style.display = "none";
+}
+
+// Cierra modal al hacer click fuera
+window.addEventListener('click', function(e) {
+  const modal = document.getElementById("info-modal");
+  if (e.target === modal) closeInfo();
+});
+
+// 4. LÓGICA DE LA TABLA Y ESTADOS
+const saved = JSON.parse(localStorage.getItem("sim_estados")||"{}");
+data.forEach(r => {
+  if(saved[r._id]) { 
+    r.estado = saved[r._id]?.estado || r.estado; 
+    r.notas = saved[r._id]?.notas || r.notas; 
+  }
+});
+
+function save(id, field, val) {
+  if(!saved[id]) saved[id] = {};
+  saved[id][field] = val;
+  localStorage.setItem("sim_estados", JSON.stringify(saved));
+  
+  // Guardar en la estructura en memoria local de inmediato
+  const item = data.find(x => x._id === id);
+  if (item) {
+    item[field] = val;
+  }
+  
+  updateStats();
+}
+
+function updateSelectColor(select) {
+  // Remover clases previas de estado
+  select.className = 'estado-sel';
+  select.classList.add('status-' + select.value);
+}
+
+function clearFilters() {
+  document.getElementById("search").value = "";
+  document.getElementById("fil-fuente").value = "";
+  document.getElementById("fil-estado").value = "";
+  document.getElementById("fil-contacto").value = "";
+  render();
+}
+
+function render() {
+  const q  = document.getElementById("search").value.toLowerCase();
+  const ff = document.getElementById("fil-fuente").value;
+  const fe = document.getElementById("fil-estado").value;
+  const fc = document.getElementById("fil-contacto").value;
+
+  const filtered = data.filter(r => {
+    const txt = (r.nombre+(r.email||"")+(r.telefono||"")+(r.web||"")+(r.licitacion||"")+(r.direccion||"")).toLowerCase();
+    if(q && !txt.includes(q)) return false;
+    if(ff && r.fuente !== ff) return false;
+    if(fe && r.estado !== fe) return false;
+    if(fc === "email" && !r.email) return false;
+    if(fc === "tel" && !r.telefono) return false;
+    if(fc === "ambos" && (!r.email || !r.telefono)) return false;
+    return true;
+  });
+
+  document.getElementById("count").textContent = filtered.length + " resultado(s)";
+
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = filtered.map((r,i) => {
+    const web = r.web ? `<a href="${r.web}" target="_blank" class="contact-btn web-btn"><span class="badge" style="background:#0369a1;color:#e0f2fe;">🌐 Web</span><span class="val-text">Visitar Web</span></a>` : "";
+    const monto = r.monto && r.monto !== "nan" ? `<div class="monto">💰 $${parseInt(r.monto).toLocaleString("es-CL")}</div>` : "";
+    const licit = r.licitacion ? `<div class="licitacion-text" title="${r.licitacion}">💼 ${r.licitacion.substring(0,55)}...</div>` : "";
+    
+    const emailHtml = r.email 
+      ? `<a href="mailto:${r.email}" class="contact-btn email-btn" title="Enviar correo a ${r.email}">
+           <span class="badge badge-email">✉ Correo</span>
+           <span class="val-text">${r.email}</span>
+         </a>` 
+      : '<span class="tag-none">— Sin Email</span>';
+      
+    const telHtml = r.telefono 
+      ? `<a href="tel:${r.telefono.replace(/\s+/g, '')}" class="contact-btn tel-btn" title="Llamar a ${r.telefono}">
+           <span class="badge badge-tel">📞 Llamar</span>
+           <span class="val-text">${r.telefono}</span>
+         </a>` 
+      : '<span class="tag-none">— Sin Teléfono</span>';
+      
+    return `<tr>
+      <td class="col-index">${i+1}</td>
+      <td class="col-empresa">
+        <strong class="empresa-name">${r.nombre}</strong>
+        <button class="btn-info" onclick="showInfo(${r._id})" title="Ver Ficha">📄 Ficha</button>
+        ${r.rut?`<div class="rut-text">RUT: ${r.rut}</div>`:""}
+      </td>
+      <td class="col-email">${emailHtml}</td>
+      <td class="col-tel">${telHtml}</td>
+      <td class="col-info">
+        ${web}
+        ${r.direccion?`<div class="direccion-text"><span>📍</span> ${r.direccion}</div>`:""}
+        ${monto}
+        ${licit}
+      </td>
+      <td class="col-fuente"><span class="badge ${r.fuente==="Google Maps"?"badge-maps":"badge-doh"}">${r.fuente==="Google Maps"?"📍 Maps":"🏛 DOH"}</span></td>
+      <td class="col-estado">
+        <select class="estado-sel status-${r.estado}" onchange="save(${r._id},'estado',this.value); updateSelectColor(this)">
+          ${["pendiente","contactado","interesado","descartado"].map(s=>`<option value="${s}" ${r.estado===s?"selected":""}>${s.charAt(0).toUpperCase() + s.slice(1)}</option>`).join("")}
+        </select>
+      </td>
+      <td class="col-notas"><input class="nota-input" value="${r.notas}" placeholder="notas..." onchange="save(${r._id},'notas',this.value)"></td>
+    </tr>`;
+  }).join("");
+  updateStats();
+}
+
+function updateStats() {
+  document.getElementById("s-total").textContent = data.length;
+  document.getElementById("s-email").textContent = data.filter(r=>r.email).length;
+  document.getElementById("s-tel").textContent = data.filter(r=>r.telefono).length;
+  document.getElementById("s-maps").textContent = data.filter(r=>r.fuente==="Google Maps").length;
+  document.getElementById("s-doh").textContent = data.filter(r=>r.fuente==="ChileCompra DOH").length;
+  document.getElementById("s-contactado").textContent = data.filter(r=>r.estado==="contactado").length;
+}
+
+function exportCSV() {
+  const cols = ["nombre","email","telefono","web","direccion","fuente","estado","notas","rut","licitacion","monto"];
+  const lines = [cols.join(";"), ...data.map(r=>cols.map(c=>`"${(r[c]||"").replace(/"/g,'""')}"`).join(";"))];
+  const blob = new Blob([lines.join("\n")],{type:"text/csv;charset=utf-8;"});
+  const a = document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="prospectos_sim_depurados.csv"; a.click();
+}
+
+["search","fil-fuente","fil-estado","fil-contacto"].forEach(id => document.getElementById(id).addEventListener("input", render));
+render();
+</script>
+</body>
+</html>
